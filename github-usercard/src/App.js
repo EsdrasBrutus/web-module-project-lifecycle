@@ -2,7 +2,9 @@ import './App.css';
 import axios from 'axios'
 import React from 'react';
 import logo from './assets/githublogo.png'
-import Card from './styled/Card'
+import { Card, Button } from './styled/Card'
+import { FollowerList, FollowingList } from './components/FollowerList';
+
 
 const URL = 'https://api.github.com/users/';
 const myURL = URL + 'EsdrasBrutus';
@@ -24,6 +26,8 @@ class App extends React.Component{
     super();
     this.state ={
       user: {},
+      followers: [],
+      following: [],
       username: ''
     }
   }
@@ -35,6 +39,28 @@ class App extends React.Component{
       user: res.data})
      })
     .catch(err=>console.log(err))
+
+    axios.get(myURL+ '/followers')
+    .then((res)=> {
+      this.setState({...this.state,
+      followers: res.data})
+     })
+    .catch(err=>{
+      this.setState({...this.state,
+        followers: []
+      })
+    })
+
+    axios.get(URL +`${this.state.username}` + '/following')
+    .then((res)=> {
+      this.setState({...this.state,
+      following: res.data})
+     })
+    .catch(err=>{
+      this.setState({...this.state,
+        following: []
+      })
+    })
   }
 
   changeHandler = evt =>{
@@ -50,7 +76,29 @@ class App extends React.Component{
     })
     .catch(this.setState({...this.state,
       user : unkownUser})); 
+
+      axios.get(URL +`${this.state.username}` + '/followers')
+      .then((res)=> {
+        this.setState({...this.state,
+        followers: res.data},
+        console.log(res.data)
+        )
+       })
+      .catch(err=>console.log(err))
+      console.log(this.state.followers)
+
+      axios.get(URL +`${this.state.username}` + '/following')
+      .then((res)=> {
+        this.setState({...this.state,
+        following: res.data})
+       })
+      .catch(err=>{
+        this.setState({...this.state,
+          following: []
+        })
+      })
   }
+  
 
   render(){
     return(
@@ -61,16 +109,16 @@ class App extends React.Component{
             value={this.state.username} 
             onChange={this.changeHandler} 
             type='text' />
-          <button onClick={this.fetchUser}>Search</button>
+          <Button onClick={this.fetchUser}>Search</Button>
         </header>
         <Card>
           <img className='avatar' alt='avatar' src={this.state.user.avatar_url} />
-          <h1>{this.state.user.login}</h1>
-          <h3>{this.state.user.name}</h3>
+          <h1>{this.state.user.name}</h1>
+          <h3>{this.state.user.login}</h3>
           <h5>{this.state.user.bio}</h5>
           <p>Located in: {this.state.user.location}</p>
-          <p>Followers: {this.state.user.followers}</p>
-          <p>Following: {this.state.user.following}</p>
+          <div>Followers: <FollowerList followers={this.state.followers}/></div>
+          <div>Following: <FollowingList followers={this.state.following}/></div>
           <p>Num. of public Repos: {this.state.user.public_repos}</p>
           <img className='graph' src={`http://ghchart.rshah.org/${this.state.user.login}`} alt={`${this.state.user.login} Github chart`} />
         </Card>
