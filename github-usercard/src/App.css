@@ -1,0 +1,45 @@
+.App {
+  text-align: center;
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: lightgray;
+}
+
+.logo {
+  width:3em;
+  filter: invert(1);
+  float: left;
+  margin: 1em;
+}
+
+.header {
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: darkgray;
+}
+
+.avatar{
+  width: 20em;
+  border-radius: 1000px;
+  margin:2em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.graph {
+  width:65em;
+  margin: 2em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.followers{
+  width:1.5em;
+  border-radius: 40px;
+}
+
+.follower-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
